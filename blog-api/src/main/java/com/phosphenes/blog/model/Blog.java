@@ -10,9 +10,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import org.springframework.data.jpa.domain.AbstractPersistable;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(uniqueConstraints=@UniqueConstraint(columnNames={"blogger_id","blog_name"}))
@@ -37,7 +37,7 @@ public class Blog extends AbstractPersistable<Long> {
 	
 	@ManyToOne(targetEntity=Blogger.class)
 	@JoinColumn(name="blogger_id")
-	@JsonManagedReference
+	@JsonBackReference
 	private Blogger blogger;
 
 	public Blog() {

@@ -1,6 +1,5 @@
 package com.phosphenes.blog.controller;
 
-import java.security.Principal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -54,8 +53,6 @@ public class BloggerController {
 		return new ResponseEntity<Blogger>(blogger, HttpStatus.OK);
 	}
 	
-	/*******************************PROTECTED APIs***********************************/
-	
 	/**
 	 * CREATE
 	 * @param blogger
@@ -73,6 +70,8 @@ public class BloggerController {
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
 	
+	/*******************************PROTECTED APIs***********************************/
+	
 	/**
 	 * UPDATE
 	 * @param bloggerName
@@ -81,8 +80,8 @@ public class BloggerController {
 	 */
 	@PreAuthorize("#oauth2.hasScope('write') and hasRole('ROLE_USER')")
 	@RequestMapping(value="/bloggers/{bloggerName}", method=RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> updateBlogger(@PathVariable("bloggerName") String bloggerName, @RequestBody Blogger blogger, Principal principal) {
-		if(!userResourcePermission.isAllowed(principal, bloggerName)) {
+	public ResponseEntity<Void> updateBlogger(@PathVariable("bloggerName") String bloggerName, @RequestBody Blogger blogger) {
+		if(!userResourcePermission.isAllowed(bloggerName)) {
 			return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
 		}
 		if (!bloggerService.isBloggerExist(bloggerName)) {
@@ -99,8 +98,8 @@ public class BloggerController {
 	 */
 	@PreAuthorize("#oauth2.hasScope('write') and hasRole('ROLE_USER')")
 	@RequestMapping(value="/bloggers/{bloggerName}", method=RequestMethod.DELETE)
-	public ResponseEntity<Void> deleteBlogger(@PathVariable("bloggerName") String bloggerName, Principal principal) {
-		if(!userResourcePermission.isAllowed(principal, bloggerName)) {
+	public ResponseEntity<Void> deleteBlogger(@PathVariable("bloggerName") String bloggerName) {
+		if(!userResourcePermission.isAllowed(bloggerName)) {
 			return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
 		}
 		if (!bloggerService.isBloggerExist(bloggerName)) {

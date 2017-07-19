@@ -13,8 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 @Entity
@@ -31,7 +31,7 @@ public class Blogger implements UserDetails {
 	private Long id;
 	
 	@OneToMany(targetEntity=Blog.class, mappedBy="blogger", cascade=CascadeType.REMOVE, fetch=FetchType.EAGER)
-	@JsonBackReference
+	@JsonManagedReference
 	private Set<Blog> blogs;
 	
 	@Column(name = "username", nullable = false, unique = true)

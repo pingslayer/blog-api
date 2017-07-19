@@ -1,6 +1,5 @@
 package com.phosphenes.blog.controller;
 
-import java.security.Principal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -70,8 +69,8 @@ public class BlogController {
 	 */
     @PreAuthorize("#oauth2.hasScope('write') and hasRole('ROLE_USER')")
 	@RequestMapping(value="/bloggers/{bloggerName}/blogs", method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createBlog(@PathVariable("bloggerName") String bloggerName, @RequestBody Blog blog, Principal principal) {
-    	if(!userResourcePermission.isAllowed(principal, bloggerName)) {
+    public ResponseEntity<Void> createBlog(@PathVariable("bloggerName") String bloggerName, @RequestBody Blog blog) {
+    	if(!userResourcePermission.isAllowed(bloggerName)) {
 			return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
 		}
 		if(blogService.isBlogExist(bloggerName, blog.getName())) {
@@ -90,8 +89,8 @@ public class BlogController {
 	 */
     @PreAuthorize("#oauth2.hasScope('write') and hasRole('ROLE_USER')")
 	@RequestMapping(value="/bloggers/{bloggerName}/blogs/{blogName}", method=RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> updateBlog(@PathVariable("bloggerName") String bloggerName, @PathVariable("blogName") String blogName, @RequestBody Blog blog, Principal principal) {
-    	if(!userResourcePermission.isAllowed(principal, bloggerName)) {
+	public ResponseEntity<Void> updateBlog(@PathVariable("bloggerName") String bloggerName, @PathVariable("blogName") String blogName, @RequestBody Blog blog) {
+    	if(!userResourcePermission.isAllowed(bloggerName)) {
 			return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
 		}
 		if(!blogService.isBlogExist(bloggerName, blogName)) {
@@ -109,8 +108,8 @@ public class BlogController {
 	 */
     @PreAuthorize("#oauth2.hasScope('write') and hasRole('ROLE_USER')")
 	@RequestMapping(value="/bloggers/{bloggerName}/blogs/{blogName}", method=RequestMethod.DELETE)
-	public ResponseEntity<Void> deleteBlog(@PathVariable("bloggerName") String bloggerName, @PathVariable("blogName") String blogName, Principal principal) {
-    	if(!userResourcePermission.isAllowed(principal, bloggerName)) {
+	public ResponseEntity<Void> deleteBlog(@PathVariable("bloggerName") String bloggerName, @PathVariable("blogName") String blogName) {
+    	if(!userResourcePermission.isAllowed(bloggerName)) {
 			return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
 		}
     	if(!blogService.isBlogExist(bloggerName, blogName)) {
