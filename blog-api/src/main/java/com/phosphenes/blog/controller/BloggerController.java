@@ -84,9 +84,6 @@ public class BloggerController {
 		if(!userResourcePermission.isAllowed(bloggerName)) {
 			return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
 		}
-		if (!bloggerService.isBloggerExist(bloggerName)) {
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-        }
 		bloggerService.updateBlogger(bloggerName, blogger);
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
@@ -102,9 +99,6 @@ public class BloggerController {
 		if(!userResourcePermission.isAllowed(bloggerName)) {
 			return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
 		}
-		if (!bloggerService.isBloggerExist(bloggerName)) {
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-        }
 		bloggerService.deleteBlogger(bloggerName);
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
